@@ -8,9 +8,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 // Render the app inside the root
 root.render(
-  <React.StrictMode>
+
     <ErrorBoundary>
       <App />
     </ErrorBoundary>
-  </React.StrictMode>
+ 
 );
