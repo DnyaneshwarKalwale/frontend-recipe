@@ -8,6 +8,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Cart from "./components/Cart"; // Import Cart Component
 import axios from "axios";
+// import Footer from "./components/Footer";
 
 import "./App.css";
 
@@ -42,6 +43,7 @@ function App() {
   return (
     <Router>
       <Header user={user} setUser={setUser} />
+
       <Routes>
         <Route path="/" element={<Home user={user} addToCart={addToCart} />} />
         <Route path="/recipe/:id" element={<RecipeDetail />} />
@@ -50,6 +52,7 @@ function App() {
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/register" element={<Register setUser={setUser} />} />
       </Routes>
+      {/* <Footer /> */}
     </Router>
   );
 }

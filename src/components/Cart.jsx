@@ -50,3 +50,4 @@ const Cart = ({ cart, onRemoveRecipe }) => {
 };
 
 export default Cart;
+

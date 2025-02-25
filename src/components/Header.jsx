@@ -1,40 +1,28 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { ShoppingCart } from "lucide-react"; // Importing cart icon
+import { ShoppingCart } from "lucide-react";
 
-const Header = ({ user, setUser }) => {
+const Header = ({ user, setUser, setSearchResults }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
   const handleSearch = async (e) => {
     e.preventDefault();
+    if (!searchQuery.trim()) return; // Prevent empty searches
     try {
       const response = await axios.get(
         `https://recipe-14fo.onrender.com/recipes/search?query=${searchQuery}`
       );
-      console.log(response.data);
+      setSearchResults(response.data); // Store results in state
+      navigate("/search"); // Redirect to search results page (if needed)
     } catch (err) {
       console.error("Error searching recipes:", err);
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setUser(null);
-  };
-
-  const handleCartClick = () => {
-    if (!user) {
-      navigate("/login"); // Redirect to login if user is not logged in
-    } else {
-      navigate("/cart"); // Redirect to cart if user is logged in
-    }
-  };
-
   return (
     <header className="bg-black text-white px-6 py-4 shadow-md flex justify-between items-center">
-      {/* Logo */}
       <Link to="/" className="text-2xl font-bold hover:text-gray-400 transition">
         Recipe App
       </Link>
@@ -53,22 +41,21 @@ const Header = ({ user, setUser }) => {
         </button>
       </form>
 
-      {/* Cart + User Section */}
       <div className="flex items-center gap-6">
-        {/* Cart Icon - Always Visible */}
-        <button onClick={handleCartClick} className="hover:text-gray-400 transition">
+        <button onClick={() => navigate(user ? "/cart" : "/login")} className="hover:text-gray-400 transition">
           <ShoppingCart size={28} />
         </button>
 
         {user ? (
           <div className="flex items-center gap-4">
-            {/* User Avatar */}
             <div className="w-10 h-10 bg-gray-700 text-white flex items-center justify-center rounded-full text-lg font-bold">
               {user.username.charAt(0).toUpperCase()}
             </div>
-            {/* Logout Button */}
             <button
-              onClick={handleLogout}
+              onClick={() => {
+                localStorage.removeItem("token");
+                setUser(null);
+              }}
               className="bg-red-500 px-4 py-2 rounded-lg hover:bg-red-700 transition"
             >
               Logout
@@ -76,7 +63,6 @@ const Header = ({ user, setUser }) => {
           </div>
         ) : (
           <div className="flex gap-4">
-            {/* Login & Register Buttons */}
             <Link to="/login" className="bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition">
               Login
             </Link>
@@ -91,6 +77,7 @@ const Header = ({ user, setUser }) => {
 };
 
 export default Header;
+
 
 
 
