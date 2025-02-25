@@ -1,19 +1,17 @@
-/* Container for the recipes */
-
 @import "tailwindcss";
 
 
 
 .recipe-container {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* 5 columns */
-  gap: 20px; /* Space between cards */
-  max-width: 1300px; /* Max width of the container */
-  margin: 0 auto; /* Center the container */
-  padding: 20px; /* Padding around the container */
+  grid-template-columns: repeat(5, 1fr); 
+  gap: 20px; 
+  max-width: 1300px; 
+  margin: 0 auto; 
+  padding: 20px;
 }
 
-/* Recipe card styling */
+
 .recipe-card {
   background: #fff;
   border: 1px solid #e4e4e7;
@@ -23,19 +21,17 @@
   position: relative;
 }
 
-/* Image styling */
 .recipe-image img {
   width: 100%;
   height: auto;
   display: block;
 }
 
-/* Content styling */
+
 .recipe-content {
   padding: 15px;
 }
 
-/* Title styling */
 .recipe-title a {
   font-size: 18px;
   color: #000;
@@ -45,8 +41,6 @@
   margin-bottom: 10px;
 }
 
-
-/* Login and Register Form Styles */
 .login-page,
 .register-page {
   max-width: 400px;

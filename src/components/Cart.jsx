@@ -8,7 +8,7 @@ const Cart = ({ cart, setCart }) => {
       await axios.delete(`https://recipe-14fo.onrender.com/cart/${recipeId}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
-      setCart(cart.filter((recipe) => recipe._id !== recipeId)); // Update local state
+      setCart(cart.filter((recipe) => recipe._id !== recipeId)); 
     } catch (err) {
       console.error("Error removing item from cart:", err);
     }

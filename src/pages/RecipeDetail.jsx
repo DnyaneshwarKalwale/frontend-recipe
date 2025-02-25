@@ -4,10 +4,10 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock, faUser, faFire, faStar } from "@fortawesome/free-solid-svg-icons";
 
-const API_KEY = "a813d54d89bf418998cc50af69d35371"; // Replace with your Spoonacular API key
+const API_KEY = "a813d54d89bf418998cc50af69d35371";
 
 function RecipeDetail() {
-  const { id } = useParams(); // Get the recipe ID from the URL
+  const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -35,7 +35,6 @@ function RecipeDetail() {
 
   return (
     <div className="bg-gray-100 min-h-screen p-6">
-      {/* Recipe Hero Section */}
       <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
         <img src={recipe.image} alt={recipe.title} className="w-full h-64 object-cover" />
         <div className="p-6">
@@ -48,8 +47,6 @@ function RecipeDetail() {
           </div>
         </div>
       </div>
-
-      {/* Ingredients Section */}
       <div className="max-w-4xl mx-auto mt-6 bg-white rounded-lg shadow-lg p-6">
         <h2 className="text-2xl font-bold mb-4">Ingredients</h2>
         <ul className="list-disc pl-6">
@@ -58,14 +55,10 @@ function RecipeDetail() {
           )) || <p>No ingredients available.</p>}
         </ul>
       </div>
-
-      {/* Instructions Section */}
       <div className="max-w-4xl mx-auto mt-6 bg-white rounded-lg shadow-lg p-6">
         <h2 className="text-2xl font-bold mb-4">Instructions</h2>
         <div className="prose" dangerouslySetInnerHTML={{ __html: recipe.instructions || "No instructions provided." }}></div>
       </div>
-
-      {/* Nutrition Section */}
       {recipe.nutrition && (
         <div className="max-w-4xl mx-auto mt-6 bg-white rounded-lg shadow-lg p-6">
           <h2 className="text-2xl font-bold mb-4">Nutrition</h2>
