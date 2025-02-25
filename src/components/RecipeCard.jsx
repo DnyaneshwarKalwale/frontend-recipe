@@ -5,12 +5,11 @@ import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
 import axios from "axios";
 
-const RecipeCard = ({ recipe, user, addToCart }) => {
+const RecipeCard = ({ recipe, user, addToCart, favorites, setFavorit }) => {
   const [isSaving, setIsSaving] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isSaved, setIsSaved] = useState(false);
 
-  // Check if the recipe is already saved when the component mounts
   useEffect(() => {
     if (user) {
       checkIfRecipeIsSaved();
@@ -41,7 +40,7 @@ const RecipeCard = ({ recipe, user, addToCart }) => {
     setErrorMessage("");
 
     try {
-      await axios.post(
+      const response = await axios.post(
         "https://recipe-14fo.onrender.com/recipes/save",
         {
           recipeId: recipe.id,
@@ -67,17 +66,15 @@ const RecipeCard = ({ recipe, user, addToCart }) => {
   const handleRemoveRecipe = async () => {
     try {
       await axios.delete(
-        `https://recipe-14fo.onrender.com/recipes/remove-saved/${recipe.id}`,
+        `https://recipe-14fo.onrender.com/recipes/${recipe.id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-
+      setFavorit(favorites.filter((r) => r._id !== recipe.id));
       setIsSaved(false);
-      alert("Recipe removed from favorites!");
     } catch (err) {
-      console.error("Error removing recipe:", err);
-      setErrorMessage("Failed to remove recipe. Please try again.");
+      console.error("Error removing favorite:", err);
     }
   };
 
@@ -103,7 +100,6 @@ const RecipeCard = ({ recipe, user, addToCart }) => {
         </div>
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
 
-        {/* Add to Cart Button */}
         <button
           className="bg-blue-500 text-white px-4 py-2 rounded-lg mt-2 hover:bg-blue-700"
           onClick={() => addToCart(recipe)}

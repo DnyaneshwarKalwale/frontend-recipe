@@ -47,8 +47,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home user={user} addToCart={addToCart} />} />
         <Route path="/recipe/:id" element={<RecipeDetail />} />
-        <Route path="/favorites" element={<Favorites user={user} addToCart={addToCart} />} /> {/* ✅ Pass addToCart */}
-        <Route path="/cart" element={<Cart cart={cart} />} /> {/* ✅ Add Cart Page */}
+        <Route path="/favorites" element={<Favorites user={user} addToCart={addToCart} />} /> 
+        <Route path="/cart" element={<Cart cart={cart} />} />
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/register" element={<Register setUser={setUser} />} />
       </Routes>

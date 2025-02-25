@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Heart } from "lucide-react";
 
 const Header = ({ user, setUser, setSearchResults }) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -9,13 +9,20 @@ const Header = ({ user, setUser, setSearchResults }) => {
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    if (!searchQuery.trim()) return; // Prevent empty searches
+    if (!searchQuery.trim()) return;
     try {
+      console.log("Searching for:", searchQuery);
       const response = await axios.get(
-        `https://recipe-14fo.onrender.com/recipes/search?query=${searchQuery}`
+        `https://recipe-14fo.onrender.com/recipes/search`,
+        {
+          params: {
+            query: searchQuery,
+          },
+        }
       );
-      setSearchResults(response.data); // Store results in state
-      navigate("/search"); // Redirect to search results page (if needed)
+      console.log("Search results:", response.data);
+      setSearchResults(response.data);
+      navigate("/search");
     } catch (err) {
       console.error("Error searching recipes:", err);
     }
@@ -23,8 +30,10 @@ const Header = ({ user, setUser, setSearchResults }) => {
 
   return (
     <header className="bg-black text-white px-6 py-4 shadow-md flex justify-between items-center">
-      <Link to="/" className="text-2xl font-bold hover:text-gray-400 transition">
-        Recipe App
+      <Link to="/" className="flex items-center">
+        <span className="text-2xl font-bold hover:text-gray-400 transition">
+          Recipe App
+        </span>
       </Link>
 
       {/* Search Bar */}
@@ -42,6 +51,12 @@ const Header = ({ user, setUser, setSearchResults }) => {
       </form>
 
       <div className="flex items-center gap-6">
+        {/* Favorites Icon */}
+        <button onClick={() => navigate(user ? "/favorites" : "/login")} className="hover:text-gray-400 transition">
+          <Heart size={28} />
+        </button>
+
+        {/* Cart Icon */}
         <button onClick={() => navigate(user ? "/cart" : "/login")} className="hover:text-gray-400 transition">
           <ShoppingCart size={28} />
         </button>

@@ -3,10 +3,11 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock, faUser, faFire, faStar } from "@fortawesome/free-solid-svg-icons";
-// import "./RecipeDetail.css";
 
-const RecipeDetail = () => {
-  const { id } = useParams();
+const API_KEY = "a813d54d89bf418998cc50af69d35371"; // Replace with your Spoonacular API key
+
+function RecipeDetail() {
+  const { id } = useParams(); // Get the recipe ID from the URL
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -14,29 +15,32 @@ const RecipeDetail = () => {
   useEffect(() => {
     const fetchRecipeDetails = async () => {
       try {
-        const response = await axios.get(`https://recipe-14fo.onrender.com/recipes_detail/${id}`);
-        console.log("Recipe Data:", response.data);
+        const response = await axios.get(
+          `https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}&includeNutrition=true`
+        );
+
         setRecipe(response.data);
         setLoading(false);
       } catch (err) {
-        console.error("Fetch error:", err.response?.data || err.message);
         setError(err.message);
         setLoading(false);
       }
     };
+
     fetchRecipeDetails();
   }, [id]);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (loading) return <div className="text-center py-10">Loading...</div>;
+  if (error) return <div className="text-center text-red-500 py-10">Error: {error}</div>;
 
   return (
-    <div className="recipe-detail">
-      <div className="recipe-hero">
-        <img src={recipe.image} alt={recipe.title} />
-        <div className="recipe-hero-content">
-          <h1>{recipe.title}</h1>
-          <div className="recipe-meta">
+    <div className="bg-gray-100 min-h-screen p-6">
+      {/* Recipe Hero Section */}
+      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+        <img src={recipe.image} alt={recipe.title} className="w-full h-64 object-cover" />
+        <div className="p-6">
+          <h1 className="text-3xl font-bold mb-4">{recipe.title}</h1>
+          <div className="flex space-x-4 text-gray-600 mb-4">
             <span><FontAwesomeIcon icon={faClock} /> {recipe.readyInMinutes} min</span>
             <span><FontAwesomeIcon icon={faUser} /> {recipe.servings} servings</span>
             <span><FontAwesomeIcon icon={faFire} /> {recipe.dishTypes?.[0] || "Unknown"}</span>
@@ -45,26 +49,29 @@ const RecipeDetail = () => {
         </div>
       </div>
 
-      <div className="recipe-section">
-        <h2>Ingredients</h2>
-        <ul>
+      {/* Ingredients Section */}
+      <div className="max-w-4xl mx-auto mt-6 bg-white rounded-lg shadow-lg p-6">
+        <h2 className="text-2xl font-bold mb-4">Ingredients</h2>
+        <ul className="list-disc pl-6">
           {recipe.extendedIngredients?.map((ingredient) => (
-            <li key={ingredient.id}>{ingredient.original}</li>
+            <li key={ingredient.id} className="mb-2">{ingredient.original}</li>
           )) || <p>No ingredients available.</p>}
         </ul>
       </div>
 
-      <div className="recipe-section">
-        <h2>Instructions</h2>
-        <div className="recipe-instructions" dangerouslySetInnerHTML={{ __html: recipe.instructions || "No instructions provided." }}></div>
+      {/* Instructions Section */}
+      <div className="max-w-4xl mx-auto mt-6 bg-white rounded-lg shadow-lg p-6">
+        <h2 className="text-2xl font-bold mb-4">Instructions</h2>
+        <div className="prose" dangerouslySetInnerHTML={{ __html: recipe.instructions || "No instructions provided." }}></div>
       </div>
 
+      {/* Nutrition Section */}
       {recipe.nutrition && (
-        <div className="recipe-section">
-          <h2>Nutrition</h2>
+        <div className="max-w-4xl mx-auto mt-6 bg-white rounded-lg shadow-lg p-6">
+          <h2 className="text-2xl font-bold mb-4">Nutrition</h2>
           <ul>
             {recipe.nutrition.nutrients?.slice(0, 5).map((nutrient) => (
-              <li key={nutrient.name}>{nutrient.name}: {nutrient.amount} {nutrient.unit}</li>
+              <li key={nutrient.name} className="mb-2">{nutrient.name}: {nutrient.amount} {nutrient.unit}</li>
             ))}
           </ul>
         </div>
