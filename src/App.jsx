@@ -6,20 +6,19 @@ import RecipeDetail from "./pages/RecipeDetail";
 import Favorites from "./components/Favorites";
 import Login from "./components/Login";
 import Register from "./components/Register";
-import Cart from "./components/Cart"; // Import Cart Component
+import Cart from "./components/Cart"; 
 import axios from "axios";
-// import Footer from "./components/Footer";
 
 import "./App.css";
 
 function App() {
   const [user, setUser] = useState(null);
-  const [cart, setCart] = useState([]); // ✅ Add cart state
+  const [cart, setCart] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      // Fetch user details using the token
       fetchUserDetails();
     }
   }, []);
@@ -35,14 +34,13 @@ function App() {
     }
   };
 
-  // ✅ Add to Cart function
   const addToCart = (recipe) => {
     setCart((prevCart) => [...prevCart, recipe]);
   };
 
   return (
     <Router>
-      <Header user={user} setUser={setUser} />
+        <Header user={user} setUser={setUser} setSearchResults={setSearchResults} />
 
       <Routes>
         <Route path="/" element={<Home user={user} addToCart={addToCart} />} />

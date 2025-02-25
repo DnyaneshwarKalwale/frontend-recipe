@@ -19,7 +19,7 @@ const RecipeCard = ({ recipe, user, addToCart, favorites, setFavorit }) => {
   const checkIfRecipeIsSaved = async () => {
     try {
       const response = await axios.get(
-        `https://recipe-14fo.onrender.com/recipes/check-saved/${recipe.id}`,
+        // `https://recipe-14fo.onrender.com/recipes/check-saved/${recipe.id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
@@ -54,7 +54,7 @@ const RecipeCard = ({ recipe, user, addToCart, favorites, setFavorit }) => {
       );
 
       setIsSaved(true);
-      alert("Recipe saved to favorites!");
+
     } catch (err) {
       console.error("Error saving recipe:", err);
       setErrorMessage("Failed to save recipe. Please try again.");
